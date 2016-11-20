@@ -38,7 +38,7 @@ import java.util.UUID;
 
 public class ledControl extends ActionBarActivity {
 
-    Button btnOn, btnOff, btnDis, lightOn, lightOff, showerOn, showerOff, refresh;
+    Button btnOn, btnOff, btnDis, lightOn, lightOff, windowO, windowC, refresh;
     SeekBar brightness;
     TextView lumn;
     String address = null;
@@ -46,7 +46,7 @@ public class ledControl extends ActionBarActivity {
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
-    private String water, door, light, temp;
+    private String window, door, light;
     private String objectID = "BaxG6tHg2n";
     ParseQuery<ParseObject> query = ParseQuery.getQuery("Home");
 
@@ -72,8 +72,8 @@ public class ledControl extends ActionBarActivity {
         btnOff = (Button) findViewById(R.id.button3);
         lightOn = (Button) findViewById(R.id.button5);
         lightOff = (Button) findViewById(R.id.button6);
-        showerOn = (Button) findViewById(R.id.button7);
-        showerOff = (Button) findViewById(R.id.button8);
+        windowO = (Button) findViewById(R.id.button7);
+        windowC = (Button) findViewById(R.id.button8);
         refresh = (Button) findViewById(R.id.button9);
         btnDis = (Button) findViewById(R.id.button4);
         lumn = (TextView) findViewById(R.id.lumn);
@@ -81,94 +81,66 @@ public class ledControl extends ActionBarActivity {
         new ConnectBT().execute(); //Call the class to connect
 
         //while (true) {
-            //commands to be sent to bluetooth
-            btnOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOnLed();      //method to turn on
-                }
-            });
-
-            btnOff.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOffLed();   //method to turn off
-                }
-            });
-
-            lightOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOnLight();   //method to turn off
-                }
-            });
-
-            lightOff.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOffLight();   //method to turn off
-                }
-            });
-
-            btnDis.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Disconnect(); //close connection
-                }
-            });
-
-            showerOff.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOffShower();   //method to turn off
-                }
-            });
-
-            showerOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    turnOnShower();   //method to turn off
-                }
-            });
-
-            refresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    refresh();   //method to turn off
-                }
-            });
-
-        /*brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        //commands to be sent to bluetooth
+        btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser==true)
-                {
-                    lumn.setText(String.valueOf(progress));
-                    try
-                    {
-                        btSocket.getOutputStream().write(String.valueOf(progress).getBytes());
-                    }
-                    catch (IOException e)
-                    {
-
-                    }
-                }
+            public void onClick(View v) {
+                turnOnLed();      //method to turn on
             }
+        });
 
+        btnOff.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
+            public void onClick(View v) {
+                turnOffLed();   //method to turn off
             }
+        });
 
+        lightOn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onClick(View v) {
+                turnOnLight();   //method to turn off
             }
-        });*/
-        //}
+        });
+
+        lightOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                turnOffLight();   //method to turn off
+            }
+        });
+
+        btnDis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Disconnect(); //close connection
+            }
+        });
+
+        windowC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeWindow();   //method to turn off
+            }
+        });
+
+        windowO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWindow();   //method to turn off
+            }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();   //method to turn off
+            }
+        });
+
     }
 
-        //commands to be sent to bluetooth
+    //commands to be sent to bluetooth
 
     private void Disconnect()
     {
@@ -186,58 +158,55 @@ public class ledControl extends ActionBarActivity {
     }
 
     private void refresh() {
-                // [Optional] Power your app with Local Datastore. For more info, go to
-                // https://parse.com/docs/android/guide#local-datastore
-                ParseObject home = new ParseObject("Home");
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> scoreList, ParseException e) {
-                        if (e == null) {
-                            query.getInBackground(objectID, new GetCallback<ParseObject>() {
-                                public void done(ParseObject object, ParseException e) {
-                                    if (e == null) {
-                                        if (temp == null || !temp.equals(object.getString("temp"))) {
-                                            temp = object.getString("temp");
-                                        }
-                                        if (water == null || !water.equals(object.getString("water"))) {
-                                            water = object.getString("water");
-                                            if (water.equals("ON")) {
-                                                turnOnShower();
-                                            } else {
-                                                turnOffShower();
-                                            }
-                                        }
-                                        if (light == null || !light.equals(object.getString("lights"))) {
-                                            light = object.getString("lights");
-                                            if (light.equals("ON")) {
-                                                turnOnLight();
-                                            } else {
-                                                turnOffLight();
-                                            }
-                                        }
-                                        if (door == null || !door.equals(object.getString("door"))) {
-                                            door = object.getString("door");
-                                            if (door.equals("OPENED")) {
-                                                turnOnLed();
-                                            } else {
-                                                turnOffLed();
-                                            }
-                                        }
+        // [Optional] Power your app with Local Datastore. For more info, go to
+        // https://parse.com/docs/android/guide#local-datastore
+        ParseObject home = new ParseObject("Home");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+                    query.getInBackground(objectID, new GetCallback<ParseObject>() {
+                        public void done(ParseObject object, ParseException e) {
+                            if (e == null) {
+                                if (window == null || !window.equals(object.getString("window"))) {
+                                    window = object.getString("window");
+                                    if (window.equals("OPENED")) {
+                                        openWindow();
                                     } else {
-                                        // something went wrong
+                                        closeWindow();
                                     }
                                 }
-                            });
-                            //System.out.println(scoreList.size());
-                            //Log.d("score", "Retrieved " + scoreList.size() + " scores");
-                        } else {
-                            Log.d("score", "Error: " + e.getMessage());
+                                if (light == null || !light.equals(object.getString("lights"))) {
+                                    light = object.getString("lights");
+                                    if (light.equals("ON")) {
+                                        turnOnLight();
+                                    } else {
+                                        turnOffLight();
+                                    }
+                                }
+                                if (door == null || !door.equals(object.getString("door"))) {
+                                    door = object.getString("door");
+                                    if (door.equals("OPENED")) {
+                                        turnOnLed();
+                                    } else {
+                                        turnOffLed();
+                                    }
+                                }
+                            } else {
+                                // something went wrong
+                            }
                         }
-                    }
-                });
+                    });
+                    //System.out.println(scoreList.size());
+                    //Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-               refresh();
+                refresh();
             }
         }, 2000);
     }
@@ -359,22 +328,22 @@ public class ledControl extends ActionBarActivity {
         }
     }
 
-    private void turnOffShower()
+    private void closeWindow()
     {
         if (btSocket!=null)
         {
             try
             {
-                btSocket.getOutputStream().write("4".toString().getBytes());
+                btSocket.getOutputStream().write("5".toString().getBytes());
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Home");
                 query.whereEqualTo("objectId", objectID);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> nameList, ParseException e) {
                         if (e == null) {
-                            nameList.get(0).put("water", "OFF");
+                            nameList.get(0).put("window", "CLOSED");
                             nameList.get(0).saveInBackground();
-                            water = "OFF";
+                            window = "CLOSED";
                         } else {
                             Log.d("Post retrieval", "Error: " + e.getMessage());
                         }
@@ -388,30 +357,31 @@ public class ledControl extends ActionBarActivity {
         }
     }
 
-    private void turnOnShower()
+    private void openWindow()
     {
         if (btSocket!=null)
         {
-            try
-            {
-                btSocket.getOutputStream().write("5".toString().getBytes());
+            try {
+                btSocket.getOutputStream().write("4".toString().getBytes());
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Home");
                 query.whereEqualTo("objectId", objectID);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
-                    public void done(List<ParseObject> nameList, ParseException e) {
-                        if (e == null) {
-                            nameList.get(0).put("water", "ON");
+                    public void done(List<ParseObject> nameList, ParseException e)
+                    {
+                        if (e == null)
+                        {
+                            nameList.get(0).put("window", "OPENED");
                             nameList.get(0).saveInBackground();
-                            water = "ON";
-                        } else {
+                            window = "OPENED";
+                        }
+                        else
+                        {
                             Log.d("Post retrieval", "Error: " + e.getMessage());
                         }
                     }
                 });
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 msg("Error");
             }
         }
@@ -462,11 +432,11 @@ public class ledControl extends ActionBarActivity {
             {
                 if (btSocket == null || !isBtConnected)
                 {
-                 myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
-                 BluetoothDevice dispositivo = myBluetooth.getRemoteDevice(address);//connects to the device's address and checks if it's available
-                 btSocket = dispositivo.createInsecureRfcommSocketToServiceRecord(myUUID);//create a RFCOMM (SPP) connection
-                 BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                 btSocket.connect();//start connection
+                    myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
+                    BluetoothDevice dispositivo = myBluetooth.getRemoteDevice(address);//connects to the device's address and checks if it's available
+                    btSocket = dispositivo.createInsecureRfcommSocketToServiceRecord(myUUID);//create a RFCOMM (SPP) connection
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+                    btSocket.connect();//start connection
                 }
             }
             catch (IOException e)
