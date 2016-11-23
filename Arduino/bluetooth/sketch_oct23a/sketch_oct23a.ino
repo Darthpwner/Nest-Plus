@@ -1,10 +1,13 @@
 #include <Servo.h>
+#include <dht.h>
 char val; // variable to receive data from the serial port
 int ledpin = 6; // LED connected to pin 48 (on-board LED)
 int doorpin = 5; // LED connected to door
 Servo door;
 Servo window_left;
 Servo window_right;
+dht DHT;
+#define DHT11_PIN 7
 
 void setup() {
   pinMode(ledpin, OUTPUT);  // pin 48 (on-board LED) as OUTPUT
@@ -18,6 +21,12 @@ void setup() {
   window_right.write(90);
 }
 void loop() {
+  int chk = DHT.read11(DHT11_PIN);
+  Serial.print("Temperature = ");
+  Serial.println(DHT.temperature);
+  Serial.print("Humidity = ");
+  Serial.println(DHT.humidity);
+  delay(1000);
   if( Serial.available() )       // if data is available to read
   {
     val = Serial.read();         // read it and store it in 'val'
