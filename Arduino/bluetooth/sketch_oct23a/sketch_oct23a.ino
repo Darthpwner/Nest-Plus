@@ -24,25 +24,27 @@ void loop() {
     Serial.print(val);
   }
   switch(val) {
-    case 1:
+    case '1':
       digitalWrite(doorpin, HIGH);  // turn ON the LED
       door.write(0);
       break;
-    case 2:
+    case '0':
       digitalWrite(doorpin, LOW);   // otherwise turn it OFF
       door.write(90);
       break;
-    case 3:
+    case '3':
       digitalWrite(ledpin, HIGH);
       break;
-    case 4:
+    case '2':
       digitalWrite(ledpin, LOW);
       break;
-    case 5:
+    case '5':
+      door.write(0);
       window_left.write(0);
       window_right.write(90);
       break;
-    case 6:
+    case '4':
+      door.write(90);
       window_left.write(90);
       window_right.write(0);
       break;
