@@ -35,7 +35,7 @@ public class ledControl extends ActionBarActivity {
 
     TextView speedTextView;
     TextView distanceTraveledTextView;
-    Button toggleButton, clearButton, redButton, greenButton, blueButton;
+    Button toggleButton, clearButton, leftButton, rightButton, redButton, greenButton, blueButton;
 
     Boolean stopped = false;
 
@@ -88,6 +88,9 @@ public class ledControl extends ActionBarActivity {
         toggleButton = (Button) findViewById(R.id.toggleButton);
         clearButton = (Button) findViewById(R.id.clearButton);
 
+        leftButton = (Button) findViewById(R.id.leftButton);
+        rightButton = (Button) findViewById(R.id.rightButton);
+
         redButton = (Button) findViewById(R.id.redButton);
         greenButton = (Button) findViewById(R.id.greenButton);
         blueButton = (Button) findViewById(R.id.blueButton);
@@ -103,7 +106,13 @@ public class ledControl extends ActionBarActivity {
 
                     System.out.println(hoursTraveled);
 
-                    double speed = 13411.2 * 12 * MILE_CONVERSION;
+//                    double speed = 13411.2 * 12 * MILE_CONVERSION;
+                    try {
+                        speed = btSocket.getInputStream().read() * MILE_CONVERSION;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     double distanceTraveled = speed * hoursTraveled;
 
                     String speedAsString = String.format("%.2f", speed);
@@ -117,7 +126,7 @@ public class ledControl extends ActionBarActivity {
             }
         });
 
-//        new ConnectBT().execute(); //Call the class to connect
+        new ConnectBT().execute(); //Call the class to connect
 
     }
 
@@ -154,12 +163,39 @@ public class ledControl extends ActionBarActivity {
         System.out.println("CLEAR");
     }
 
+    public void leftButtonOnClick(View v) {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("4".toString().getBytes());
+
+                System.out.println("Write 4");
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+    }
+
+    public void rightButtonOnClick(View v) {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("5".toString().getBytes());
+
+                System.out.println("Write 5");
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+    }
+
     private void turnOff()
     {
         if (btSocket!=null)
         {
             try {
                 btSocket.getOutputStream().write("0".toString().getBytes());
+                System.out.println("Write 0");
             } catch (IOException e) {
                 msg("Error");
             }
@@ -183,6 +219,8 @@ public class ledControl extends ActionBarActivity {
         {
             try {
                 btSocket.getOutputStream().write("1".toString().getBytes());
+
+                System.out.println("Write 1");
             } catch (IOException e) {
                 msg("Error");
             }
@@ -206,6 +244,7 @@ public class ledControl extends ActionBarActivity {
         {
             try {
                 btSocket.getOutputStream().write("2".toString().getBytes());
+                System.out.println("Write 2");
             } catch (IOException e) {
                 msg("Error");
             }
@@ -229,6 +268,7 @@ public class ledControl extends ActionBarActivity {
         {
             try {
                 btSocket.getOutputStream().write("3".toString().getBytes());
+                System.out.println("Write 3");
             } catch (IOException e) {
                 msg("Error");
             }
