@@ -84,22 +84,23 @@ public class ledControl extends ActionBarActivity {
             @Override
             public void run() {
                 // upadte textView here
-                hoursTraveled = (System.currentTimeMillis() - startTime) * MILLISECOND_TO_HOUR_CONVERSION;
-
-                System.out.println(hoursTraveled);
-
-                double speed = 13411.2 * 12 * MILE_CONVERSION;
-                double distanceTraveled = speed * hoursTraveled;
-
-                String speedAsString = String.format("%.2f", speed);
-                String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
-
-                speedTextView.setText("Speed: " + speedAsString + " mph");
-                distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
 
                 if(!stopped) {
-                    handler.postDelayed(this, 500); // set time here to refresh textView
+                    hoursTraveled = (System.currentTimeMillis() - startTime) * MILLISECOND_TO_HOUR_CONVERSION;
+
+                    System.out.println(hoursTraveled);
+
+                    double speed = 13411.2 * 12 * MILE_CONVERSION;
+                    double distanceTraveled = speed * hoursTraveled;
+
+                    String speedAsString = String.format("%.2f", speed);
+                    String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
+
+                    speedTextView.setText("Speed: " + speedAsString + " mph");
+                    distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
                 }
+
+                handler.postDelayed(this, 500); // set time here to refresh textView
             }
         });
 
@@ -113,13 +114,6 @@ public class ledControl extends ActionBarActivity {
         } else {
             stopped = false;
         }
-
-        String speedAsString = String.format("%.2f", speed);
-        String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
-
-        speedTextView.setText("Speed: " + speedAsString + " mph");
-        distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
-        System.out.println("STOP");
     }
 
     public void clearButtonOnClick(View v) {
