@@ -35,7 +35,7 @@ public class ledControl extends ActionBarActivity {
 
     TextView speedTextView;
     TextView distanceTraveledTextView;
-    Button stopButton, clearButton;
+    Button toggleButton, clearButton;
 
     Boolean stopped = false;
 
@@ -77,7 +77,7 @@ public class ledControl extends ActionBarActivity {
         //call the widgtes
         speedTextView = (TextView) findViewById(R.id.speedTextView);
         distanceTraveledTextView = (TextView) findViewById(R.id.distanceTraveledTextView);
-        stopButton = (Button) findViewById(R.id.stopButton);
+        toggleButton = (Button) findViewById(R.id.toggleButton);
         clearButton = (Button) findViewById(R.id.clearButton);
 
         final Handler handler=new Handler();
@@ -109,13 +109,15 @@ public class ledControl extends ActionBarActivity {
 
     }
 
-    public void stopButtonOnClick(View v) {
+    public void toggleButtonOnClick(View v) {
         if(stopped == false) {
             stopped = true;
+            toggleButton.setText("Start");
 
             currentTime = System.currentTimeMillis() - startTime;
         } else {
             stopped = false;
+            toggleButton.setText("Stop");
             if(hoursTraveled == 0) {
                 startTime = System.currentTimeMillis();
             } else {
