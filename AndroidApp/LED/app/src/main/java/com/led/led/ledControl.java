@@ -37,6 +37,8 @@ public class ledControl extends ActionBarActivity {
     TextView distanceTraveledTextView;
     Button stopButton, clearButton;
 
+    Boolean stopped = false;
+
     final double MILE_CONVERSION = 0.000372823;
     final double MILLISECOND_TO_HOUR_CONVERSION = 2.77778 / 10000000;
 
@@ -95,7 +97,9 @@ public class ledControl extends ActionBarActivity {
                 speedTextView.setText("Speed: " + speedAsString + " mph");
                 distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
 
-                handler.postDelayed(this, 500); // set time here to refresh textView
+                if(!stopped) {
+                    handler.postDelayed(this, 500); // set time here to refresh textView
+                }
             }
         });
 
@@ -104,14 +108,11 @@ public class ledControl extends ActionBarActivity {
     }
 
     public void stopButtonOnClick(View v) {
-        hoursTraveled = (System.currentTimeMillis() - startTime) * MILLISECOND_TO_HOUR_CONVERSION;
-        startTime = System.currentTimeMillis();
-
-        double speed = 13411.2 * 12 * MILE_CONVERSION;  //Proof of concept works, just need to constantly update.
-        double distanceTraveled = speed * hoursTraveled;
-
-        System.out.println(MILLISECOND_TO_HOUR_CONVERSION);
-        System.out.println(hoursTraveled);
+        if(stopped == false) {
+            stopped = true;
+        } else {
+            stopped = false;
+        }
 
         String speedAsString = String.format("%.2f", speed);
         String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
