@@ -44,6 +44,7 @@ public class ledControl extends ActionBarActivity {
 
     double hoursTraveled = 0;
     double startTime = System.currentTimeMillis();
+    double currentTime;
 
     double speed = 13411.2 * MILE_CONVERSION;
     double distanceTraveled = speed * hoursTraveled;
@@ -111,8 +112,15 @@ public class ledControl extends ActionBarActivity {
     public void stopButtonOnClick(View v) {
         if(stopped == false) {
             stopped = true;
+
+            currentTime = System.currentTimeMillis() - startTime;
         } else {
             stopped = false;
+            if(hoursTraveled == 0) {
+                startTime = System.currentTimeMillis();
+            } else {
+                startTime = System.currentTimeMillis() - currentTime;
+            }
         }
     }
 
