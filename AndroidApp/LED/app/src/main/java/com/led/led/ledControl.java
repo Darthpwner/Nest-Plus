@@ -154,13 +154,38 @@ public class ledControl extends ActionBarActivity {
         System.out.println("CLEAR");
     }
 
+    private void turnOff()
+    {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("0".toString().getBytes());
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+    }
+
     public void redButtonOnClick(View v) {
         if(color == RED) {
             color = NONE;
             System.out.println("NONE");
+            turnOff();
         } else {
             color = RED;
             System.out.println("RED");
+            turnOnRed();
+        }
+    }
+
+    private void turnOnRed() {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("1".toString().getBytes());
+            } catch (IOException e) {
+                msg("Error");
+            }
         }
     }
 
@@ -168,9 +193,22 @@ public class ledControl extends ActionBarActivity {
         if(color == GREEN) {
             color = NONE;
             System.out.println("NONE");
+            turnOff();
         } else {
             color = GREEN;
             System.out.println("GREEN");
+            turnOnGreen();
+        }
+    }
+
+    private void turnOnGreen() {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("2".toString().getBytes());
+            } catch (IOException e) {
+                msg("Error");
+            }
         }
     }
 
@@ -178,9 +216,22 @@ public class ledControl extends ActionBarActivity {
         if(color == BLUE) {
             color = NONE;
             System.out.println("NONE");
+            turnOff();
         } else {
             color = BLUE;
             System.out.println("BLUE");
+            turnOnBlue();
+        }
+    }
+
+    private void turnOnBlue() {
+        if (btSocket!=null)
+        {
+            try {
+                btSocket.getOutputStream().write("3".toString().getBytes());
+            } catch (IOException e) {
+                msg("Error");
+            }
         }
     }
 
