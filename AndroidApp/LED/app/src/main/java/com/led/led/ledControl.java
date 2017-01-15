@@ -48,9 +48,6 @@ public class ledControl extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        speedTextView.setText("Speed: " + 50);
-//        distanceTraveledTextView.setText("Distance Traveled: " + 100);
-
         Intent newint = getIntent();
         address = newint.getStringExtra(DeviceList.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
@@ -65,7 +62,11 @@ public class ledControl extends ActionBarActivity {
         speedTextView = (TextView) findViewById(R.id.speedTextView);
         distanceTraveledTextView = (TextView) findViewById(R.id.distanceTraveledTextView);
 
-        new ConnectBT().execute(); //Call the class to connect
+        speedTextView.setText("Speed: " + 50);
+        distanceTraveledTextView.setText("Distance Traveled: " + 100);
+
+
+//        new ConnectBT().execute(); //Call the class to connect
 
     }
 
