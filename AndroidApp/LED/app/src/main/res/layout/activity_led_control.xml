@@ -82,4 +82,34 @@
         android:background="#008891"
         android:onClick="toggleButtonOnClick" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="R"
+        android:id="@+id/redButton"
+        android:layout_x="16dp"
+        android:layout_y="384dp"
+        android:background="#fd0303"
+        android:onClick="redButtonOnClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="G"
+        android:id="@+id/greenButton"
+        android:layout_x="150dp"
+        android:layout_y="382dp"
+        android:background="#32fd05"
+        android:onClick="greenButtonOnClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="B"
+        android:id="@+id/blueButton"
+        android:layout_x="278dp"
+        android:layout_y="386dp"
+        android:background="#086cf9"
+        android:onClick="blueButtonOnClick" />
+
 </AbsoluteLayout>

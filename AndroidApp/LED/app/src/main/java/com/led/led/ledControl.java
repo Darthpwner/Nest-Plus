@@ -35,12 +35,17 @@ public class ledControl extends ActionBarActivity {
 
     TextView speedTextView;
     TextView distanceTraveledTextView;
-    Button toggleButton, clearButton;
+    Button toggleButton, clearButton, redButton, greenButton, blueButton;
 
     Boolean stopped = false;
 
     final double MILE_CONVERSION = 0.000372823;
     final double MILLISECOND_TO_HOUR_CONVERSION = 2.77778 / 10000000;
+
+    final int NONE = 0;
+    final int RED = 1;
+    final int GREEN = 2;
+    final int BLUE = 3;
 
     double hoursTraveled = 0;
     double startTime = System.currentTimeMillis();
@@ -48,6 +53,8 @@ public class ledControl extends ActionBarActivity {
 
     double speed = 13411.2 * MILE_CONVERSION;
     double distanceTraveled = speed * hoursTraveled;
+
+    int color = NONE;
 
     String address = null;
     private ProgressDialog progress;
@@ -77,8 +84,13 @@ public class ledControl extends ActionBarActivity {
         //call the widgtes
         speedTextView = (TextView) findViewById(R.id.speedTextView);
         distanceTraveledTextView = (TextView) findViewById(R.id.distanceTraveledTextView);
+
         toggleButton = (Button) findViewById(R.id.toggleButton);
         clearButton = (Button) findViewById(R.id.clearButton);
+
+        redButton = (Button) findViewById(R.id.redButton);
+        greenButton = (Button) findViewById(R.id.greenButton);
+        blueButton = (Button) findViewById(R.id.blueButton);
 
         final Handler handler=new Handler();
         handler.post(new Runnable() {
@@ -140,6 +152,36 @@ public class ledControl extends ActionBarActivity {
         distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
 
         System.out.println("CLEAR");
+    }
+
+    public void redButtonOnClick(View v) {
+        if(color == RED) {
+            color = NONE;
+            System.out.println("NONE");
+        } else {
+            color = RED;
+            System.out.println("RED");
+        }
+    }
+
+    public void greenButtonOnClick(View v) {
+        if(color == GREEN) {
+            color = NONE;
+            System.out.println("NONE");
+        } else {
+            color = GREEN;
+            System.out.println("GREEN");
+        }
+    }
+
+    public void blueButtonOnClick(View v) {
+        if(color == BLUE) {
+            color = NONE;
+            System.out.println("NONE");
+        } else {
+            color = BLUE;
+            System.out.println("BLUE");
+        }
     }
 
     //commands to be sent to bluetooth
