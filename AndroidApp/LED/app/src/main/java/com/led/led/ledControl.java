@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -76,17 +77,27 @@ public class ledControl extends ActionBarActivity {
         stopButton = (Button) findViewById(R.id.stopButton);
         clearButton = (Button) findViewById(R.id.clearButton);
 
+        final Handler handler=new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // upadte textView here
+                hoursTraveled = (System.currentTimeMillis() - startTime) * MILLISECOND_TO_HOUR_CONVERSION;
 
-        hoursTraveled = 5.0;
-        double speed = 13411.2 * MILE_CONVERSION;
-        double distanceTraveled = speed * hoursTraveled;
+                System.out.println(hoursTraveled);
 
-        String speedAsString = String.format("%.2f", speed);
-        String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
+                double speed = 13411.2 * 12 * MILE_CONVERSION;
+                double distanceTraveled = speed * hoursTraveled;
 
-        speedTextView.setText("Speed: " + speedAsString + " mph");
-        distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
+                String speedAsString = String.format("%.2f", speed);
+                String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
 
+                speedTextView.setText("Speed: " + speedAsString + " mph");
+                distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
+
+                handler.postDelayed(this, 500); // set time here to refresh textView
+            }
+        });
 
 //        new ConnectBT().execute(); //Call the class to connect
 
@@ -112,6 +123,8 @@ public class ledControl extends ActionBarActivity {
 
     public void clearButtonOnClick(View v) {
         hoursTraveled = 0;
+        startTime = System.currentTimeMillis();
+
         double speed = 13411.2 * MILE_CONVERSION;
         double distanceTraveled = speed * hoursTraveled;
 
