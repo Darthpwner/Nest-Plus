@@ -37,8 +37,11 @@ public class ledControl extends ActionBarActivity {
     Button stopButton, clearButton;
 
     final double MILE_CONVERSION = 0.000372823;
+    final double MILLISECOND_TO_HOUR_CONVERSION = 2.77778 / 10000000;
 
     double hoursTraveled = 0;
+    double startTime = System.currentTimeMillis();
+
     double speed = 13411.2 * MILE_CONVERSION;
     double distanceTraveled = speed * hoursTraveled;
 
@@ -90,17 +93,35 @@ public class ledControl extends ActionBarActivity {
     }
 
     public void stopButtonOnClick(View v) {
+        hoursTraveled = (System.currentTimeMillis() - startTime) * MILLISECOND_TO_HOUR_CONVERSION;
+        startTime = System.currentTimeMillis();
 
-    }
+        double speed = 13411.2 * 12 * MILE_CONVERSION;  //Proof of concept works, just need to constantly update.
+        double distanceTraveled = speed * hoursTraveled;
 
-    public void clearButtonOnClick(View v) {
-        hoursTraveled = 0;
+        System.out.println(MILLISECOND_TO_HOUR_CONVERSION);
+        System.out.println(hoursTraveled);
 
         String speedAsString = String.format("%.2f", speed);
         String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
 
         speedTextView.setText("Speed: " + speedAsString + " mph");
         distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
+        System.out.println("STOP");
+    }
+
+    public void clearButtonOnClick(View v) {
+        hoursTraveled = 0;
+        double speed = 13411.2 * MILE_CONVERSION;
+        double distanceTraveled = speed * hoursTraveled;
+
+        String speedAsString = String.format("%.2f", speed);
+        String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
+
+        speedTextView.setText("Speed: " + speedAsString + " mph");
+        distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
+
+        System.out.println("CLEAR");
     }
 
     //commands to be sent to bluetooth
