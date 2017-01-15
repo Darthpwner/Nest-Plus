@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class ledControl extends ActionBarActivity {
     final double MILE_CONVERSION = 0.000372823;
 
     double hoursTraveled = 0;
+    double speed = 13411.2 * MILE_CONVERSION;
+    double distanceTraveled = speed * hoursTraveled;
 
     String address = null;
     private ProgressDialog progress;
@@ -86,12 +89,18 @@ public class ledControl extends ActionBarActivity {
 
     }
 
-    public void stopButtonOnClick() {
+    public void stopButtonOnClick(View v) {
 
     }
 
-    public void clearButtonOnClick() {
+    public void clearButtonOnClick(View v) {
         hoursTraveled = 0;
+
+        String speedAsString = String.format("%.2f", speed);
+        String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
+
+        speedTextView.setText("Speed: " + speedAsString + " mph");
+        distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
     }
 
     //commands to be sent to bluetooth
