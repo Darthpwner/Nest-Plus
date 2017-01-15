@@ -32,6 +32,9 @@ public class ledControl extends ActionBarActivity {
 
     TextView speedTextView;
     TextView distanceTraveledTextView;
+    final double MILE_CONVERSION = 0.000372823;
+
+    double hoursTraveled = 0;
 
     String address = null;
     private ProgressDialog progress;
@@ -62,8 +65,8 @@ public class ledControl extends ActionBarActivity {
         speedTextView = (TextView) findViewById(R.id.speedTextView);
         distanceTraveledTextView = (TextView) findViewById(R.id.distanceTraveledTextView);
 
-        speedTextView.setText("Speed: " + 50);
-        distanceTraveledTextView.setText("Distance Traveled: " + 100);
+        speedTextView.setText("Speed: " + (13411.2 * MILE_CONVERSION) + " mph");
+        distanceTraveledTextView.setText("Distance Traveled: " + (13411.2 * MILE_CONVERSION * hoursTraveled) + " miles");
 
 
 //        new ConnectBT().execute(); //Call the class to connect
