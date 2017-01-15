@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class ledControl extends ActionBarActivity {
 
     TextView speedTextView;
     TextView distanceTraveledTextView;
+    Button stopButton, clearButton;
+
     final double MILE_CONVERSION = 0.000372823;
 
     double hoursTraveled = 0;
@@ -64,13 +67,31 @@ public class ledControl extends ActionBarActivity {
         //call the widgtes
         speedTextView = (TextView) findViewById(R.id.speedTextView);
         distanceTraveledTextView = (TextView) findViewById(R.id.distanceTraveledTextView);
+        stopButton = (Button) findViewById(R.id.stopButton);
+        clearButton = (Button) findViewById(R.id.clearButton);
 
-        speedTextView.setText("Speed: " + (13411.2 * MILE_CONVERSION) + " mph");
-        distanceTraveledTextView.setText("Distance Traveled: " + (13411.2 * MILE_CONVERSION * hoursTraveled) + " miles");
+
+        hoursTraveled = 5.0;
+        double speed = 13411.2 * MILE_CONVERSION;
+        double distanceTraveled = speed * hoursTraveled;
+
+        String speedAsString = String.format("%.2f", speed);
+        String distanceTraveledAsString = String.format("%.2f", distanceTraveled);
+
+        speedTextView.setText("Speed: " + speedAsString + " mph");
+        distanceTraveledTextView.setText("Distance Traveled: " + distanceTraveledAsString + " miles");
 
 
 //        new ConnectBT().execute(); //Call the class to connect
 
+    }
+
+    public void stopButtonOnClick() {
+
+    }
+
+    public void clearButtonOnClick() {
+        hoursTraveled = 0;
     }
 
     //commands to be sent to bluetooth

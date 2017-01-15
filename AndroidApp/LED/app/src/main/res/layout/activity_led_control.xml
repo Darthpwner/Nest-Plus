@@ -61,4 +61,24 @@
         android:layout_y="99dp"
         android:background="#f7db06" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clearButton"
+        android:layout_x="227dp"
+        android:layout_y="214dp"
+        android:background="#008891"
+        android:onClick="clearButtonOnClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/stopButton"
+        android:layout_x="46dp"
+        android:layout_y="216dp"
+        android:background="#008891"
+        android:onClick="stopButtonOnClick" />
+
 </AbsoluteLayout>
